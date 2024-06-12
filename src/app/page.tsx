@@ -22,6 +22,7 @@ export default function Home() {
         </div>
 
         <ThirdwebResources />
+        <CacaCard />
       </div>
     </main>
   );
@@ -45,7 +46,7 @@ function Header() {
         <span className="inline-block -skew-x-6 text-blue-500"> Next.js </span>
       </h1>
 
-      <p className="text-zinc-300 text-base">
+      <p className="text-zinc-300 text-base"> 
         Read the{" "}
         <code className="bg-zinc-800 text-zinc-300 px-2 rounded py-1 text-sm mx-1">
           README.md
@@ -97,4 +98,15 @@ function ArticleCard(props: {
       </article>
     </a>
   );
+}
+
+function CacaCard () {
+  return (
+    <>
+      <h1>Esta es una caca</h1>
+      <h1>Esta es una caca</h1>
+      <h1>Esta es una caca</h1>
+      <h1>Esta es una caca</h1>    
+    </>
+  )
 }

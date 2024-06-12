@@ -103,10 +103,7 @@ function ArticleCard(props: {
 function CacaCard () {
   return (
     <>
-      <h1>Esta es una caca</h1>
-      <h1>Esta es una caca</h1>
-      <h1>Esta es una caca</h1>
-      <h1>Esta es una caca</h1>    
+      <h1>Testßß</h1>
     </>
   )
 }

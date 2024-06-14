@@ -1,13 +1,15 @@
 "use client";
 
 type Props = { contractAddress: string };
-import { getContract, prepareContractCall } from "thirdweb";
+import { getContract, prepareContractCall, readContract } from "thirdweb";
 
 import { optimism } from "thirdweb/chains";
 import { client } from "@/lib/thirdwebClient";
-import { useCallback, useMemo } from "react";
-import { useSendTransaction } from "thirdweb/react";
+import { useCallback, useEffect, useMemo } from "react";
+import { useActiveAccount, useSendTransaction } from "thirdweb/react";
 import { parseUnits } from "ethers";
+import { useState } from "react";
+import contractABI from "./ABI";
 
 export default function MintButton(props: Props) {
   const {
@@ -27,10 +29,30 @@ export default function MintButton(props: Props) {
         // the chain the contract is deployed on
         chain: optimism,
         // the contract's address
-        address: "0x5Be2eEe4D534298C6F089479c904D6edA18F28F0",
+        address: "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58",
       }),
     []
   );
+
+  const address = useActiveAccount(); //intenta conseguir la wallet conectada
+  const [balance, setBalance] = useState(0n);
+  useEffect( () =>{
+    async function run(){
+      console.log(address?.address);
+
+      if (address?.address){
+        const balance = await readContract({
+          contract: contract,
+          method: "function balanceOf(address) view returns (uint256)",
+          params: [address.address],
+        });
+        setBalance(balance);
+      }
+    } 
+    run();
+  }, [address?.address, contract]); //aca termina el useEffect
+
+
 
   const onClick = useCallback(async () => {
     const transaction = prepareContractCall({
@@ -38,7 +60,7 @@ export default function MintButton(props: Props) {
       method: "function mint(address to, uint256 amount)",
       params: [
         "0x5be2eee4d534298c6f089479c904d6eda18f28f0",
-        parseUnits("10.5", 18),
+        parseUnits("10.5", 18), 
       ],
     });
     sendTransaction(transaction);
@@ -61,7 +83,7 @@ export default function MintButton(props: Props) {
         mint 10.5 tokens
       </button>
 
-      <p>data</p>
+      <p>{ balance }</p>
     </div>
   );
 }

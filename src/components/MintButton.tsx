@@ -1,10 +1,10 @@
 "use client";
 
 type Props = { contractAddress: string };
-import { getContract, prepareContractCall, readContract } from "thirdweb";
+import { getContract, prepareContractCall, readContract, } from "thirdweb";
 
 import { optimism } from "thirdweb/chains";
-import { sepolia } from "thirdweb/chains";
+import { baseSepolia } from "thirdweb/chains";
 import { client } from "@/lib/thirdwebClient";
 import { useCallback, useEffect, useMemo } from "react";
 import { useActiveAccount, useSendTransaction } from "thirdweb/react";
@@ -28,10 +28,10 @@ export default function MintButton(props: Props) {
         // the client you have created via `createThirdwebClient()`
         client,
         // the chain the contract is deployed on
-        chain: sepolia,
+        chain: optimism,
         // the contract's address
-        //address: "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58", //optimism contract address
-        address: "0x1b44F3514812d835EB1BDB0acB33d3fA3351Ee43", //sepolia contract address
+        address: "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58", //optimism contract address
+        //address: "0x1b44F3514812d835EB1BDB0acB33d3fA3351Ee43", //sepolia contract address
         
 
       }),
@@ -91,6 +91,8 @@ export default function MintButton(props: Props) {
         { balance.toString() }
       </button>
 
+
     </div>
+
   );
 }

@@ -4,6 +4,7 @@ type Props = { contractAddress: string };
 import { getContract, prepareContractCall, readContract } from "thirdweb";
 
 import { optimism } from "thirdweb/chains";
+import { sepolia } from "thirdweb/chains";
 import { client } from "@/lib/thirdwebClient";
 import { useCallback, useEffect, useMemo } from "react";
 import { useActiveAccount, useSendTransaction } from "thirdweb/react";
@@ -27,9 +28,12 @@ export default function MintButton(props: Props) {
         // the client you have created via `createThirdwebClient()`
         client,
         // the chain the contract is deployed on
-        chain: optimism,
+        chain: sepolia,
         // the contract's address
-        address: "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58",
+        //address: "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58", //optimism contract address
+        address: "0x1b44F3514812d835EB1BDB0acB33d3fA3351Ee43", //sepolia contract address
+        
+
       }),
     []
   );
@@ -38,6 +42,7 @@ export default function MintButton(props: Props) {
   const [balance, setBalance] = useState(0n);
   useEffect( () =>{
     async function run(){
+      console.log("esta es mi walet mia de mi:")
       console.log(address?.address);
 
       if (address?.address){
@@ -46,25 +51,28 @@ export default function MintButton(props: Props) {
           method: "function balanceOf(address) view returns (uint256)",
           params: [address.address],
         });
+        console.log("balance");
+        console.log(balance);
         setBalance(balance);
       }
     } 
+    console.log("running");
     run();
   }, [address?.address, contract]); //aca termina el useEffect
 
 
 
-  const onClick = useCallback(async () => {
-    const transaction = prepareContractCall({
-      contract,
-      method: "function mint(address to, uint256 amount)",
-      params: [
-        "0x5be2eee4d534298c6f089479c904d6eda18f28f0",
-        parseUnits("10.5", 18), 
-      ],
-    });
-    sendTransaction(transaction);
-  }, [contract, sendTransaction]);
+  // const onClick = useCallback(async () => {
+  //   const transaction = prepareContractCall({
+  //     contract,
+  //     method: "function mint(address to, uint256 amount)",
+  //     params: [
+  //       "0x5be2eee4d534298c6f089479c904d6eda18f28f0",
+  //       parseUnits("10.5", 18), 
+  //     ],
+  //   });
+  //   sendTransaction(transaction);
+  // }, [contract, sendTransaction]);
 
   console.log(data);
   console.log(error);
@@ -77,13 +85,12 @@ export default function MintButton(props: Props) {
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         onClick={() => {
           console.log("here");
-          onClick();
+          //onClick();
         }}
       >
-        mint 10.5 tokens
+        { balance.toString() }
       </button>
 
-      <p>{ balance }</p>
     </div>
   );
 }
